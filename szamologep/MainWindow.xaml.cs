@@ -98,6 +98,8 @@ namespace szamologep
             string help = "";
             int utolsomuveletjel = 0;
 
+            //Szorzás Osztás
+
             for (int i = 0; i < muvelet.Length; i++)
             {
                 if (muvelet[i] == '+' || muvelet[i] == '-' || muvelet[i] == '*' || muvelet[i] == '/')
@@ -109,19 +111,19 @@ namespace szamologep
                         string szam = ""; 
                         while (mehet)
                         {
-                            if ((muvelet[i] == '+' || muvelet[i] == '-' || muvelet[i] == '*' || muvelet[i] == '/')&&j>i &&j<muvelet.Length)
+                            if ((j == muvelet.Length || muvelet[j] == '+' || muvelet[j] == '-' || muvelet[j] == '*' || muvelet[j] == '/')&&j>i)
                             {
                                 mehet = false;
                             }
                             else 
                             {
-                                szam += muvelet[i];
+                                szam += muvelet[j];
                             }
                             j++;
                         }
                         string szamolt = Megold(szam);
-                        help.Remove(help.Length - utolsomuveletjel);
-                        i += j - i+1;
+                        help = help.Remove(help.Length - utolsomuveletjel);
+                        i += j - i;
                         help += szamolt;
                        
                     }
@@ -138,7 +140,54 @@ namespace szamologep
                     utolsomuveletjel += 1;
                 }
             }
+
+            //Kivonás Összeadás
+            muvelet = "";
+            utolsomuveletjel = 0;
+            for (int i = 0; i < help.Length; i++)
+            {
+                if (help[i] == '+' || help[i] == '-')
+                {
+                    if (help[i] == '+' || help[i] == '-')
+                    {
+                        int j = i - utolsomuveletjel;
+                        bool mehet = true;
+                        string szam = "";
+                        while (mehet)
+                        {
+                            if (j == help.Length||(help[j] == '+' || help[j] == '-') && j > i)
+                            {
+                                mehet = false;
+                            }
+                            else
+                            {
+                                szam += help[j];
+                            }
+                            j++;
+                        }
+                        string szamolt = Megold(szam);
+                        muvelet = muvelet.Remove(muvelet.Length - utolsomuveletjel);
+                        i += j - i;
+                        muvelet += szamolt;
+
+                    }
+                    else
+                    {
+                        muvelet += help[i];
+                    }
+                    utolsomuveletjel = 0;
+
+                }
+                else
+                {
+                    muvelet += help[i];
+                    utolsomuveletjel += 1;
+                }
+            }
+
+            tb_kijelzo.Text= muvelet;
         }
+
 
         private string Megold(string szam)
         {
