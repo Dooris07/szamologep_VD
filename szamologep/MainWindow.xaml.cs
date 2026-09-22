@@ -85,6 +85,10 @@ namespace szamologep
             {
                 tb_kijelzo.Text = " ";
             }
+            else if (tb_kijelzo.Text.Length>0&&( tb_kijelzo.Text[tb_kijelzo.Text.Length - 1] == '+'|| tb_kijelzo.Text[tb_kijelzo.Text.Length - 1] == '-' || tb_kijelzo.Text[tb_kijelzo.Text.Length - 1] == '*' || tb_kijelzo.Text[tb_kijelzo.Text.Length - 1] == '/'))
+            {
+
+            }
             else
             {
                 tb_kijelzo.Text += felirat;
