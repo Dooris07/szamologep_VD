@@ -1,13 +1,6 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace szamologep
 {
@@ -80,19 +73,117 @@ namespace szamologep
 
 
 
-
-
-
-
-
-
-
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
             string felirat = button.Content.ToString();
-            tb_kijelzo.Text = felirat;
+            if (felirat == "=")
+            {
+                Kiszamol();
+            }
+            else if (felirat == "C")
+            {
+                tb_kijelzo.Text = " ";
+            }
+            else
+            {
+                tb_kijelzo.Text += felirat;
+            }
+
+        }
+
+        private void Kiszamol()
+        {
+            string muvelet = tb_kijelzo.Text;
+            string help = "";
+            int utolsomuveletjel = 0;
+
+            for (int i = 0; i < muvelet.Length; i++)
+            {
+                if (muvelet[i] == '+' || muvelet[i] == '-' || muvelet[i] == '*' || muvelet[i] == '/')
+                {
+                    if (muvelet[i] == '*' || muvelet[i] == '/')
+                    {
+                        int j = i - utolsomuveletjel;
+                        bool mehet = true;
+                        string szam = ""; 
+                        while (mehet)
+                        {
+                            if ((muvelet[i] == '+' || muvelet[i] == '-' || muvelet[i] == '*' || muvelet[i] == '/')&&j>i &&j<muvelet.Length)
+                            {
+                                mehet = false;
+                            }
+                            else 
+                            {
+                                szam += muvelet[i];
+                            }
+                            j++;
+                        }
+                        string szamolt = Megold(szam);
+                        help.Remove(help.Length - utolsomuveletjel);
+                        i += j - i+1;
+                        help += szamolt;
+                       
+                    }
+                    else
+                    {
+                        help += muvelet[i];
+                    }
+                    utolsomuveletjel = 0;
+                    
+                }
+                else 
+                {
+                    help += muvelet[i];
+                    utolsomuveletjel += 1;
+                }
+            }
+        }
+
+        private string Megold(string szam)
+        {
+            string szam1 = "";
+            string szam2 = "";
+            char jel = default;
+            bool elotte = true;
+            for (int i = 0; i < szam.Length; i++)
+            {
+                if (szam[i] == '+' || szam[i] == '-' || szam[i] == '*' || szam[i] == '/')
+                {
+                    jel = szam[i];
+                    elotte = false;
+                }
+                else if (elotte)
+                {
+                    szam1 += szam[i];
+                }
+                else
+                {
+                    szam2 += szam[i];
+                }
+            }
+
+            int x = int.Parse(szam1);
+            int y = int.Parse(szam2);
+
+            switch (jel)
+            {
+                case '+':
+                    
+                    return (x + y) + "";
+                case '-':
+
+                    return (x - y) + "";
+                case '*':
+
+                    return (x * y) + "";
+                case '/':
+
+                    return Math.Round(x / y+0.0,0) + "";
+                default:
+                    throw new Exception("Блять!!!");
+            }
+            
         }
     }
 }

@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <TextBlock x:Name="tb_kijelzo"
                    Grid.Row="0"
-                   Text="0"
+                   Text=""
                    FontSize="32"
                    FontWeight="Bold"
                    HorizontalAlignment="Right"
